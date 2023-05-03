@@ -1,6 +1,7 @@
 package guru.springframework.msscbeerservice.web.controller;
 
 import guru.springframework.msscbeerservice.web.model.BeerDto;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class BeerController {
     }
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> saveNewBeer(@RequestBody BeerDto beerDto) {
+    public ResponseEntity<HttpStatus> saveNewBeer(@Valid @RequestBody BeerDto beerDto) {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
