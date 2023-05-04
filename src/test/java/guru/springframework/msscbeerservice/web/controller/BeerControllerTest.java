@@ -1,19 +1,25 @@
 package guru.springframework.msscbeerservice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.springframework.msscbeerservice.domain.Beer;
+import guru.springframework.msscbeerservice.repositories.BeerRepository;
+import guru.springframework.msscbeerservice.web.mappers.BeerMapper;
 import guru.springframework.msscbeerservice.web.model.BeerDto;
 import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,18 +29,25 @@ class BeerControllerTest {
 
     ObjectMapper objectMapper;
 
-    @InjectMocks
     BeerController beerController;
+
+    @Mock
+    BeerRepository beerRepository;
+
+    @Mock
+    BeerMapper beerMapper;
 
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
+        beerController=new BeerController(beerMapper, beerRepository);
         mockMvc = MockMvcBuilders.standaloneSetup(beerController).build();
         objectMapper = new ObjectMapper();
     }
 
     @Test
     void getBeerById() throws Exception {
+        given(beerRepository.findById(any())).willReturn(Optional.of(Beer.builder().build()));
         mockMvc.perform(get("/api/v1/beer/"+ UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
