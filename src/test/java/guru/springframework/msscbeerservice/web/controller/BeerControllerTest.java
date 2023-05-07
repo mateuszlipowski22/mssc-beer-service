@@ -2,13 +2,12 @@ package guru.springframework.msscbeerservice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.msscbeerservice.domain.Beer;
-import guru.springframework.msscbeerservice.repositories.BeerRepository;
+import guru.springframework.msscbeerservice.services.BeerService;
 import guru.springframework.msscbeerservice.web.mappers.BeerMapper;
 import guru.springframework.msscbeerservice.web.model.BeerDto;
 import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,7 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,14 +46,14 @@ class BeerControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    BeerRepository beerRepository;
+    BeerService beerService;
 
-    @Mock
+    @Autowired
     BeerMapper beerMapper;
 
     @Test
     void getBeerById() throws Exception {
-        given(beerRepository.findById(any())).willReturn(Optional.of(Beer.builder().build()));
+        given(beerService.getById(any())).willReturn(beerMapper.beerToBeerDto(Beer.builder().build()));
 
         mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString())
                         .param("iscold", "yes")
