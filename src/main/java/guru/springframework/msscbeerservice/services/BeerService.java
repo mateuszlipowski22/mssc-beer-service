@@ -8,9 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import java.util.UUID;
 
 public interface BeerService {
-    BeerPageList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest);
+    BeerPageList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, Boolean showInventoryOnHand);
 
-    BeerDto getById(UUID beerId);
+    BeerDto getById(UUID beerId, Boolean showInventoryOnHand);
 
     BeerDto saveBeer(BeerDto beerDto);
 

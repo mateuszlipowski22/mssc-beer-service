@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.msscbeerservice.bootstrap.BeerLoader;
 import guru.springframework.msscbeerservice.domain.Beer;
 import guru.springframework.msscbeerservice.services.BeerService;
+import guru.springframework.msscbeerservice.services.inventory.BeerInventoryService;
 import guru.springframework.msscbeerservice.web.mappers.BeerMapper;
 import guru.springframework.msscbeerservice.web.model.BeerDto;
 import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
@@ -25,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -49,12 +51,15 @@ class BeerControllerTest {
     @MockBean
     BeerService beerService;
 
+    @MockBean
+    BeerInventoryService beerInventoryService;
+
     @Autowired
     BeerMapper beerMapper;
 
     @Test
     void getBeerById() throws Exception {
-        given(beerService.getById(any())).willReturn(beerMapper.beerToBeerDto(Beer.builder().build()));
+        given(beerService.getById(any(), anyBoolean())).willReturn(beerMapper.beerToBeerDto(Beer.builder().build()));
 
         mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString())
                         .param("iscold", "yes")
