@@ -19,6 +19,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
         <jaxb.version>2.3.0</jaxb.version>
+        <lombok.version>1.18.8</lombok.version>
     </properties>
     <dependencies>
         <dependency>
