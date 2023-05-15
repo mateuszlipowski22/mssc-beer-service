@@ -16,6 +16,7 @@ public interface BeerMapper {
     @Mapping(target = "name", source = "beer.beerName")
     BeerDto beerToBeerDtoWithInventory(Beer beer);
 
+    @Mapping(target = "beerName", source = "name")
     Beer beerDtoToBeer(BeerDto beerDto);
 
 }
