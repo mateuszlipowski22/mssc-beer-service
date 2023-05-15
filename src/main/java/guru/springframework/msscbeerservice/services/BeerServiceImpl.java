@@ -83,7 +83,7 @@ public class BeerServiceImpl implements BeerService {
         Beer beer = beerRepository.findById(beerId).orElseThrow(NotFoundException::new);
 
         beer.setBeerName(beerDto.getName());
-        beer.setBeerStyle(beerDto.getBeerStyle());
+        beer.setBeerStyle(beerDto.getBeerStyle().name());
         beer.setPrice(beerDto.getPrice());
         beer.setUpc(beerDto.getUpc());
 
