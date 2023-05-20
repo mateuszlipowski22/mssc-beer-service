@@ -97,4 +97,9 @@ public class BeerServiceImpl implements BeerService {
                     beerRepository.findByUpc(upc).orElseThrow(NotFoundException::new));
 
     }
+
+    @Override
+    public Integer getOnHandInventory(UUID id) {
+        return beerRepository.findById(id).orElseThrow().getMinOnHand();
+    }
 }
